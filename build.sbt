@@ -1,7 +1,8 @@
+enablePlugins(PlayScala)
+disablePlugins(PlayFilters)
+
 name := "random-word"
 
-version := "1.0-SNAPSHOT"
+scalaVersion := "2.13.1"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
-
-scalaVersion := "2.11.1"
+libraryDependencies += guice
