@@ -1,12 +1,13 @@
 package controllers
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 import play.api._
 import play.api.mvc._
 
 import scala.io.Source
 import scala.util.Random
 
+@Singleton
 class Application @Inject()(environment: Environment) extends InjectedController {
 
   lazy val words = {
