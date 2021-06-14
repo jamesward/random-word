@@ -1,7 +1,26 @@
 steps:
-- name: 'gcr.io/k8s-skaffold/pack'
-  entrypoint: 'pack'
-  args: ['build', '--builder=heroku/buildpacks:18', '--publish', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA']
+  - name: gcr.io/k8s-skaffold/pack
+    entrypoint: pack
+    args:
+      - 'build'
+      - '--builder=heroku/buildpacks:18'
+      - '--publish'
+      - 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
 
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['run', 'deploy', '--image=gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA', '--platform=managed', '--project=$PROJECT_ID', '--region=us-central1', '--allow-unauthenticated', '--memory=1Gi', '--cpu=2.', '--max-instances=1', '$REPO_NAME']
+  - name: ghcr.io/jamesward/easycloudrun
+    entrypoint: appsecret
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'IMAGE_NAME=$REPO_NAME'
+      - 'ENV_NAME=CRYPTO_SECRET'
+      - 'REGION=us-central1'
+
+  - name: ghcr.io/jamesward/easycloudrun
+    entrypoint: deploywithenvs
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'BUILD_ID=$BUILD_ID'
+      - 'COMMIT_SHA=$COMMIT_SHA'
+      - 'IMAGE_NAME=$REPO_NAME'
+      - 'IMAGE_VERSION=$COMMIT_SHA'
+      - 'REGION=us-central1'
