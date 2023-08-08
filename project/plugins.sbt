@@ -1,1 +1,2 @@
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.1")
+addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.16")
+addSbtPlugin("io.spray" % "sbt-revolver" % "0.9.1")
